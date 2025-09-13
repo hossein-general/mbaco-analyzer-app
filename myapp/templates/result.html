@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Analysis Result</title>
+</head>
+<body>
+    {% load static %}
+    <h1>Analysis Result</h1>
+    <div>
+        {% for file in output_files %}
+            {% with file_lower=file|lower %}
+                {% if file_lower|slice:"-4:" == ".png" %}
+                    <div><img src="{{ file_url_prefix }}{{ file }}" alt="{{ file }}" style="max-width: 100%; height: auto;"></div>
+                {% elif file_lower|slice:"-4:" == ".mp4" %}
+                    <div><video controls style="max-width: 100%; height: auto;"><source src="{{ file_url_prefix }}{{ file }}" type="video/mp4">Your browser does not support the video tag.</video></div>
+                {% else %}
+                    <div><a href="{{ file_url_prefix }}{{ file }}">{{ file }}</a></div>
+                {% endif %}
+            {% endwith %}
+        {% empty %}
+            <p>No output files found.</p>
+        {% endfor %}
+    </div>
+    <div>
+        <a href="http://localhost:8000/">add more files</a>
+    </div>
+
+</body>
+</html>
